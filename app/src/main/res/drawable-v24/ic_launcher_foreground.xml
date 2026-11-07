@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group android:translateX="3" android:translateY="2" android:pivotX="51" android:pivotY="52" android:scaleX="0.75" android:scaleY="0.75">
+        <!-- Card Shadow -->
+        <path
+            android:fillColor="#22000000"
+            android:pathData="M28,16 h50 c5.5,0 10,4.5 10,10 v56 c0,5.5 -4.5,10 -10,10 h-50 c-5.5,0 -10,-4.5 -10,-10 v-56 c0,-5.5 4.5,-10 10,-10 z" />
+
+        <!-- Card White Base -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M26,14 h50 c5.5,0 10,4.5 10,10 v56 c0,5.5 -4.5,10 -10,10 h-50 c-5.5,0 -10,-4.5 -10,-10 v-56 c0,-5.5 4.5,-10 10,-10 z" />
+
+        <!-- Card Border -->
+        <path
+            android:strokeColor="#E0E0E0"
+            android:strokeWidth="1"
+            android:pathData="M26,14 h50 c5.5,0 10,4.5 10,10 v56 c0,5.5 -4.5,10 -10,10 h-50 c-5.5,0 -10,-4.5 -10,-10 v-56 c0,-5.5 4.5,-10 10,-10 z" />
+
+        <!-- Top Left corner -->
+        <group>
+            <!-- 'K' -->
+            <path
+                android:fillColor="#D32F2F"
+                android:pathData="M 30,18 h 2.5 v 5.5 l 5,-5.5 h 3.5 l -5.5,6 l 6,7 h -3.5 l -4.5,-5.5 l -1,1 v 4.5 h -2.5 z" />
+            <!-- Small Heart -->
+            <path
+                android:fillColor="#D32F2F"
+                android:pathData="M 29,38.3 C 29,36.5 30.5,35 32.3,35 C 33.5,35 34.5,35.6 35,36.5 C 35.5,35.6 36.5,35 37.7,35 C 39.5,35 41,36.5 41,38.3 C 41,40.5 39,42.3 35,46 C 31,42.3 29,40.5 29,38.3 Z" />
+        </group>
+
+        <!-- Bottom Right corner (rotated 180) -->
+        <group android:pivotX="51" android:pivotY="52" android:rotation="180">
+            <!-- 'K' -->
+            <path
+                android:fillColor="#D32F2F"
+                android:pathData="M 30,18 h 2.5 v 5.5 l 5,-5.5 h 3.5 l -5.5,6 l 6,7 h -3.5 l -4.5,-5.5 l -1,1 v 4.5 h -2.5 z" />
+            <!-- Small Heart -->
+            <path
+                android:fillColor="#D32F2F"
+                android:pathData="M 29,38.3 C 29,36.5 30.5,35 32.3,35 C 33.5,35 34.5,35.6 35,36.5 C 35.5,35.6 36.5,35 37.7,35 C 39.5,35 41,36.5 41,38.3 C 41,40.5 39,42.3 35,46 C 31,42.3 29,40.5 29,38.3 Z" />
+        </group>
+
+        <!-- Center Large Heart -->
+        <path
+            android:fillColor="#D32F2F"
+            android:pathData="M 33,46.9 C 33,41.5 37.5,37 42.9,37 C 46.5,37 49.5,38.8 51,41.5 C 52.5,38.8 55.5,37 59.1,37 C 64.5,37 69,41.5 69,46.9 C 69,53.5 63,58.9 51,70 C 39,58.9 33,53.5 33,46.9 Z" />
+
+        <!-- Center Crown -->
+        <path
+            android:fillColor="#FBC02D"
+            android:pathData="M 42,34 h 18 l 3,-10 l -6,6 l -6,-9 l -6,9 l -6,-6 z" />
+    </group>
+</vector>
