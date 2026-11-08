@@ -17,7 +17,7 @@ enum class Rank(val value: Int, val symbol: String) {
 
     companion object {
         fun fromValue(value: Int): Rank {
-            return values().firstOrNull { it.value == value }
+            return entries.firstOrNull { it.value == value }
                 ?: throw IllegalArgumentException("Invalid card rank value: $value")
         }
     }

@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Solitario Clásico - Juego de Cartas</string>
+    <string name="app_name">Solitario Clásico: Cartas</string>
+    <string name="score_label">PUNTOS</string>
+    <string name="moves_label">MOVS</string>
+    <string name="new_game">Nueva Partida</string>
+    <string name="daily_challenge">Reto Diario</string>
+    <string name="hint">Pista</string>
+    <string name="undo">Deshacer</string>
+    <string name="themes">Temas</string>
+    <string name="auto_complete">¡Partida Resuelta! Auto-Completar Ahora</string>
 </resources>

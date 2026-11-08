@@ -1,6 +1,7 @@
 package com.HKemtrentainment.solitaro
 
 import com.HKemtrentainment.solitaro.model.Deck
+import com.HKemtrentainment.solitaro.model.ScoringMode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -19,6 +20,8 @@ class DeckTest {
         val totalFoundationCards = board.foundationPiles.values.sumOf { it.size }
 
         assertEquals(52, totalTableauCards + totalStockCards + totalWasteCards + totalFoundationCards)
+        assertEquals(24, totalStockCards)
+        assertEquals(0, totalWasteCards)
 
         // Tableau should have 7 piles
         assertEquals(7, board.tableauPiles.size)
@@ -34,5 +37,25 @@ class DeckTest {
                 assertTrue(!pile[j].isFaceUp)
             }
         }
+    }
+
+    @Test
+    fun testDeterministicDailyChallengeSeed() {
+        val deck = Deck()
+        val seed = Deck.seedForDate("2026-11-07")
+        val board1 = deck.createInitialBoard(seed = seed, winningDeal = true, isDailyChallenge = true, dailyChallengeDate = "2026-11-07")
+        val board2 = deck.createInitialBoard(seed = seed, winningDeal = true, isDailyChallenge = true, dailyChallengeDate = "2026-11-07")
+
+        assertEquals(board1.stockPile.map { it.id }, board2.stockPile.map { it.id })
+        for (col in 0 until 7) {
+            assertEquals(board1.tableauPiles[col].map { it.id }, board2.tableauPiles[col].map { it.id })
+        }
+    }
+
+    @Test
+    fun testVegasScoringInitialScore() {
+        val deck = Deck()
+        val vegasBoard = deck.createInitialBoard(scoringMode = ScoringMode.VEGAS)
+        assertEquals(-52, vegasBoard.score)
     }
 }

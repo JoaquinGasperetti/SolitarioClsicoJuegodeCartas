@@ -5,9 +5,13 @@ enum class CardColor {
     BLACK
 }
 
-enum class Suit(val color: CardColor) {
-    HEARTS(CardColor.RED),
-    DIAMONDS(CardColor.RED),
-    CLUBS(CardColor.BLACK),
-    SPADES(CardColor.BLACK)
+enum class Suit(
+    val color: CardColor,
+    val symbol: String,
+    val displayNameEs: String
+) {
+    HEARTS(CardColor.RED, "♥", "Corazones"),
+    DIAMONDS(CardColor.RED, "♦", "Diamantes"),
+    CLUBS(CardColor.BLACK, "♣", "Tréboles"),
+    SPADES(CardColor.BLACK, "♠", "Picas")
 }

@@ -2,6 +2,7 @@ package com.HKemtrentainment.solitaro.viewmodel
 
 import com.HKemtrentainment.solitaro.model.Card
 import com.HKemtrentainment.solitaro.model.Rank
+import com.HKemtrentainment.solitaro.model.ScoringMode
 import com.HKemtrentainment.solitaro.model.Suit
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -23,8 +24,9 @@ class SolitaireViewModelTest {
     }
 
     @Test
-    fun testOnStockTapped() {
+    fun testOnStockTappedDrawOne() {
         val viewModel = SolitaireViewModel()
+        viewModel.initializeGame(drawCount = 1)
         val initialState = viewModel.boardState.value
         val initialStockSize = initialState.stockPile.size
         val initialWasteSize = initialState.wastePile.size
@@ -39,8 +41,24 @@ class SolitaireViewModelTest {
     }
 
     @Test
-    fun testStockTappingAndRecycling() {
+    fun testOnStockTappedDrawThree() {
         val viewModel = SolitaireViewModel()
+        viewModel.initializeGame(drawCount = 3)
+        val initialStockSize = viewModel.boardState.value.stockPile.size
+
+        viewModel.onStockTapped()
+
+        val newState = viewModel.boardState.value
+        assertEquals(initialStockSize - 3, newState.stockPile.size)
+        assertEquals(3, newState.wastePile.size)
+        assertTrue(newState.wastePile.all { it.isFaceUp })
+        assertEquals(1, newState.moves)
+    }
+
+    @Test
+    fun testStockTappingAndRecyclingWithPenalty() {
+        val viewModel = SolitaireViewModel()
+        viewModel.initializeGame(drawCount = 1, scoringMode = ScoringMode.STANDARD)
         val initialStockSize = viewModel.boardState.value.stockPile.size
 
         // Tap stock until it's empty
@@ -59,6 +77,7 @@ class SolitaireViewModelTest {
         assertEquals(initialStockSize, state.stockPile.size)
         assertEquals(0, state.wastePile.size)
         assertFalse(state.stockPile.last().isFaceUp)
+        assertEquals(1, state.stockRecycleCount)
     }
 
     @Test
@@ -90,16 +109,9 @@ class SolitaireViewModelTest {
         assertFalse(viewModel.canMoveToTableau(aceClubs, null))
 
         // Non-empty column requires alternate color and target rank == card rank + 1
-        // queenHearts (Red Q) on kingSpades (Black K) -> true
         assertTrue(viewModel.canMoveToTableau(queenHearts, kingSpades))
-
-        // queenSpades (Black Q) on kingSpades (Black K) -> false (same color)
         assertFalse(viewModel.canMoveToTableau(queenSpades, kingSpades))
-
-        // aceClubs on kingSpades -> false (wrong rank sequence)
         assertFalse(viewModel.canMoveToTableau(aceClubs, kingSpades))
-
-        // 5 on 7 -> false (wrong rank sequence)
         assertFalse(viewModel.canMoveToTableau(fiveDiamonds, sevenClubs))
     }
 
@@ -122,17 +134,17 @@ class SolitaireViewModelTest {
 
         // Non-empty foundation requires same suit and target rank == card rank - 1
         assertTrue(viewModel.canMoveToFoundation(twoHearts, foundationWithAce))
-        assertFalse(viewModel.canMoveToFoundation(twoSpades, foundationWithAce)) // wrong suit
-        assertFalse(viewModel.canMoveToFoundation(kingHearts, foundationWithAce)) // wrong rank
+        assertFalse(viewModel.canMoveToFoundation(twoSpades, foundationWithAce))
+        assertFalse(viewModel.canMoveToFoundation(kingHearts, foundationWithAce))
     }
 
     @Test
-    fun testAutoMoveCardLogic() {
+    fun testDailyChallengeInitialization() {
         val viewModel = SolitaireViewModel()
-        val aceHearts = Card(suit = Suit.HEARTS, rank = Rank.ACE, isFaceUp = true)
-        viewModel.autoMoveCard(aceHearts, CardSource.Waste)
-        assertFalse(viewModel.boardState.value.isWon)
+        viewModel.startDailyChallenge("2026-11-07")
+        val state = viewModel.boardState.value
+        assertTrue(state.isDailyChallenge)
+        assertEquals("2026-11-07", state.dailyChallengeDate)
+        assertTrue(state.isWinningDeal)
     }
 }
-
-

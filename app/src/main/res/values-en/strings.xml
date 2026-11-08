@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Classic Solitaire: Card Game</string>
+    <string name="score_label">SCORE</string>
+    <string name="moves_label">MOVES</string>
+    <string name="new_game">New Game</string>
+    <string name="daily_challenge">Daily Challenge</string>
+    <string name="hint">Hint</string>
+    <string name="undo">Undo</string>
+    <string name="themes">Themes</string>
+    <string name="auto_complete">Game Solved! Auto-Complete Now</string>
+</resources>
