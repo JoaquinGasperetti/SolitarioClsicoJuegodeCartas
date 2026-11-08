@@ -2,6 +2,7 @@ package com.HKemtrentainment.solitaro.ui
 
 import android.app.Activity
 import android.content.Context
+import com.HKemtrentainment.solitaro.ads.AdMobSdkInitializer
 import com.HKemtrentainment.solitaro.analytics.AnalyticsManager
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -11,25 +12,41 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 /**
- * Manages AdMob interstitial ads with a retention-friendly frequency cap (cooldown).
- * Showing interstitial ads when a user restarts a deal after only a few seconds triggers
- * early 7-day uninstalls—the #1 negative ranking signal in Google Play's algorithm.
+ * Manages interstitial ads with a retention-friendly frequency cap.
+ * Ads are loaded only after the Mobile Ads SDK has finished initialization.
  */
 object AdMobInterstitialHelper {
     private var interstitialAd: InterstitialAd? = null
     private var isLoading = false
+    private var isWaitingForInitialization = false
     private var lastAdShownTimestampMs: Long = 0L
-    private const val MIN_COOLDOWN_MS = 120_000L // Minimum 2 minutes between interstitials
-    private const val MIN_MOVES_BEFORE_AD = 12   // Never punish quick deal restarts with an ad
+    private const val MIN_COOLDOWN_MS = 120_000L
+    private const val MIN_MOVES_BEFORE_AD = 12
     private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
 
     fun loadAd(context: Context) {
+        if (interstitialAd != null || isLoading || isWaitingForInitialization) return
+
+        val appContext = context.applicationContext
+        if (!AdMobSdkInitializer.isInitialized.value) {
+            isWaitingForInitialization = true
+            AdMobSdkInitializer.runWhenInitialized {
+                isWaitingForInitialization = false
+                loadAd(appContext)
+            }
+            return
+        }
+
+        loadAdNow(appContext)
+    }
+
+    private fun loadAdNow(context: Context) {
         if (interstitialAd != null || isLoading) return
         isLoading = true
         try {
             val adRequest = AdRequest.Builder().build()
             InterstitialAd.load(
-                context.applicationContext,
+                context,
                 AD_UNIT_ID,
                 adRequest,
                 object : InterstitialAdLoadCallback() {
@@ -82,8 +99,12 @@ object AdMobInterstitialHelper {
         }
     }
 
-    // Backwards-compatible overload
+    // Backwards-compatible overload.
     fun showInterstitial(context: Context, onAdClosed: () -> Unit) {
-        showInterstitialIfEligible(context = context, movesInCurrentGame = 20, onComplete = onAdClosed)
+        showInterstitialIfEligible(
+            context = context,
+            movesInCurrentGame = 20,
+            onComplete = onAdClosed
+        )
     }
 }
