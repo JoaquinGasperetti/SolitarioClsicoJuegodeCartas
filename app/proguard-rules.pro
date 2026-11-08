@@ -1,7 +1,4 @@
-# Add project specific ProGuard rules here.
-# You can use the set property includeActionBar to override default settings.
-# For details see:
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Add project-specific ProGuard rules here.
 
 # Room
 -keep class androidx.room.** { *; }
@@ -24,3 +21,6 @@
 -keepattributes EnclosingMethod,InnerClasses,Signature
 -keepclassmembers class kotlin.coroutines.jvm.internal.** { *; }
 -keep class kotlinx.coroutines.** { *; }
+
+# Keep the launcher Activity in minified Release APKs.
+-keep class com.HKemtrentainment.solitaro.MainActivity { *; }

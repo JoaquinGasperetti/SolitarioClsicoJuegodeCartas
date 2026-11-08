@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+    // Required to compile the Kotlin source files under src/main/java.
+    // The Compose compiler plugin below does not replace this plugin.
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
 }
@@ -46,6 +49,13 @@ android {
 
     buildFeatures {
         compose = true
+    }
+}
+
+// Keep Kotlin bytecode target aligned with Java 11 compileOptions.
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
