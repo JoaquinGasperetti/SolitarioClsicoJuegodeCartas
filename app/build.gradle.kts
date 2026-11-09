@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.HKemtrentainment.solitaro"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 4
         versionName = "0.1.0"
 
